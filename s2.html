@@ -1,604 +1,745 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Safaryat Desktop</title>
+  <title>Safaryat Desktop Dashboard</title>
   <style>
     :root {
-      --bg: #f5f0ea;
-      --paper: #fbf7f2;
-      --card: #fffdfa;
-      --line: #eadfd4;
-      --text: #4f2d24;
-      --muted: #8d7364;
-      --gold: #c2914c;
-      --gold-dark: #ab7a39;
-      --brown-900: #4b1f18;
-      --brown-800: #5d261c;
-      --brown-700: #733222;
-      --brown-600: #8f4d30;
-      --shadow: 0 18px 40px rgba(71, 30, 20, 0.12);
-      --radius-xl: 28px;
+      --bg: #f4eee8;
+      --panel: #fbf8f4;
+      --white: #fffdfa;
+      --line: #eadfd3;
+      --text: #4b2f25;
+      --muted: #9b8778;
+      --gold: #c08d49;
+      --gold-dark: #ab7739;
+      --brown-950: #4a1d17;
+      --brown-900: #5a251c;
+      --brown-800: #6d2f21;
+      --brown-700: #80402b;
+      --sidebar-grad: linear-gradient(180deg, #4d1f18 0%, #63281e 52%, #7b3a29 100%);
+      --card-shadow: 0 14px 35px rgba(71, 30, 20, 0.10);
+      --soft-shadow: 0 8px 20px rgba(60, 24, 16, 0.06);
+      --radius-xl: 26px;
       --radius-lg: 20px;
-      --radius-md: 16px;
+      --radius-md: 14px;
     }
 
     * {
       box-sizing: border-box;
-      font-family: Tahoma, Arial, sans-serif;
     }
 
     body {
       margin: 0;
-      background: linear-gradient(180deg, #f8f4ef 0%, #efe6df 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #f8f4ef 0%, #eee6de 100%);
       color: var(--text);
+      padding: 26px;
     }
 
-    .page {
-      max-width: 1500px;
+    .app {
+      max-width: 1460px;
       margin: 0 auto;
-      padding: 28px;
-    }
-
-    .shell {
-      overflow: hidden;
-      border: 4px solid var(--brown-900);
+      background: var(--white);
+      border: 4px solid var(--brown-950);
       border-radius: 28px;
-      background: var(--paper);
-      box-shadow: var(--shadow);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(66, 28, 20, 0.12);
     }
 
-    .topbar {
-      height: 88px;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(90deg, var(--brown-900), var(--brown-700) 55%, #8c4c30 100%);
+    .layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      min-height: 860px;
+    }
+
+    .sidebar {
+      background: var(--sidebar-grad);
       color: #fff;
+      padding: 22px 18px 26px;
+      position: relative;
+    }
+
+    .sidebar::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 160px;
+      background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.05));
+      pointer-events: none;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
-      direction: ltr;
-      font-size: 19px;
+      gap: 12px;
+      font-size: 18px;
       font-weight: 700;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.2px;
+      color: #e9c27e;
+      margin-bottom: 26px;
     }
 
-    .logo {
-      width: 34px;
-      height: 34px;
+    .logo-mark {
+      width: 30px;
+      height: 30px;
       position: relative;
+      flex: 0 0 auto;
     }
 
-    .logo::before,
-    .logo::after {
+    .logo-mark::before,
+    .logo-mark::after {
       content: "";
       position: absolute;
       inset: 0;
-      border-radius: 55% 45% 50% 50% / 25% 75% 25% 75%;
-      transform: rotate(24deg);
+      border-radius: 50px;
+      transform-origin: center;
     }
 
-    .logo::before {
-      background: #5ea2bc;
-      clip-path: path("M 6 3 C 24 6, 28 14, 17 20 C 11 24, 10 32, 22 39 C 29 43, 28 48, 20 51 C 11 54, 6 49, 8 42 C 11 31, 0 24, 4 13 C 6 8, 10 4, 6 3 Z");
+    .logo-mark::before {
+      background: #5d9fb7;
+      clip-path: polygon(71% 0, 53% 5%, 36% 17%, 27% 29%, 30% 41%, 41% 53%, 56% 63%, 72% 74%, 84% 88%, 88% 100%, 63% 100%, 57% 91%, 51% 78%, 43% 67%, 30% 54%, 17% 39%, 14% 23%, 22% 11%, 38% 3%);
+      transform: scaleX(-1);
     }
 
-    .logo::after {
-      background: linear-gradient(180deg, #da8d45, #b44f2f);
-      clip-path: polygon(10% 10%, 44% 17%, 36% 27%, 51% 45%, 40% 69%, 61% 89%, 39% 91%, 19% 71%, 27% 47%, 16% 24%);
-      opacity: 0.92;
+    .logo-mark::after {
+      background: #d3824b;
+      clip-path: polygon(43% 18%, 50% 9%, 62% 3%, 79% 0, 55% 12%, 42% 25%, 39% 38%, 46% 52%, 57% 64%, 66% 77%, 68% 88%, 58% 100%, 38% 100%, 50% 90%, 53% 79%, 49% 66%, 39% 53%, 31% 39%, 32% 27%);
+      transform: scaleX(-1);
     }
 
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .icon-btn,
-    .avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      font-size: 14px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 290px 1fr 320px;
-      min-height: 820px;
-    }
-
-    .sidebar {
-      background: linear-gradient(180deg, var(--brown-900), var(--brown-700) 60%, #6c2e21 100%);
-      color: #fff;
-      padding: 26px 18px;
-    }
-
-    .side-card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .search-panel {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 22px;
       padding: 18px;
       margin-bottom: 18px;
       backdrop-filter: blur(6px);
     }
 
-    .side-title {
-      font-size: 21px;
-      margin: 0 0 16px;
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 24px;
       font-weight: 700;
+      margin: 0 0 18px;
+    }
+
+    .magnifier {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #f1ded1;
+      font-size: 13px;
     }
 
     .label {
       display: block;
-      font-size: 14px;
-      margin-bottom: 8px;
-      color: #f5dfca;
+      font-size: 13px;
+      color: #efd8c2;
+      margin-bottom: 7px;
+      letter-spacing: 0.1px;
     }
 
-    .field,
-    .select,
-    .input {
+    .control {
       width: 100%;
-      height: 48px;
+      min-height: 48px;
+      border: 1px solid rgba(255,255,255,0.10);
       border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.95);
-      color: #664638;
-      padding: 0 14px;
-      outline: none;
+      background: rgba(255,255,255,0.96);
+      color: #6e5749;
+      padding: 12px 14px;
       margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
     }
 
-    .chips {
-      display: flex;
+    .control small {
+      color: #9d8676;
+      font-size: 13px;
+    }
+
+    .vehicle-types {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
       margin: 6px 0 18px;
     }
 
-    .chip {
-      flex: 1;
+    .vehicle-pill {
       text-align: center;
       padding: 11px 10px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.06);
-      color: #f7e8d7;
+      background: rgba(255,255,255,0.04);
+      color: #f6e9dd;
       font-size: 14px;
     }
 
-    .chip.active {
-      background: linear-gradient(180deg, #d2aa6f, #b98541);
+    .vehicle-pill.active {
+      background: linear-gradient(180deg, #d3ab71, #bb8846);
       border-color: transparent;
       color: #fff;
       font-weight: 700;
+      box-shadow: 0 8px 18px rgba(190,140,72,0.22);
+    }
+
+    .side-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #f1ded1;
+      font-size: 15px;
+      margin: 18px 0 14px;
     }
 
     .search-btn {
       width: 100%;
-      height: 52px;
+      height: 50px;
       border: 0;
       border-radius: 14px;
-      background: linear-gradient(180deg, #d4ae70, #bb8945);
+      background: linear-gradient(180deg, #cf9d5d, #ba8443);
       color: #fff;
       font-size: 16px;
       font-weight: 700;
+      box-shadow: 0 10px 22px rgba(192,141,73,0.22);
       cursor: pointer;
-      box-shadow: 0 10px 24px rgba(191,141,71,0.18);
     }
 
-    .main {
+    .content {
       background: #fcf8f4;
-      padding: 22px;
-      border-left: 1px solid var(--line);
+      display: grid;
+      grid-template-rows: 82px 1fr;
+    }
+
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 160px 1fr auto;
+      align-items: stretch;
+    }
+
+    .header-tab,
+    .header-title {
+      display: flex;
+      align-items: center;
+      padding: 0 26px;
+      font-weight: 600;
       border-right: 1px solid var(--line);
     }
 
-    .main-head {
+    .header-tab {
+      color: #6e5445;
+      background: #fffaf5;
+    }
+
+    .header-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .header-tools {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 20px;
+    }
+
+    .tool-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: #7e6658;
+      background: transparent;
+      font-size: 15px;
+    }
+
+    .header-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 42px;
+      border-radius: 12px;
+      padding: 0 14px;
+      background: linear-gradient(180deg, #8c5533, #734428);
+      color: #fff;
+      min-width: 110px;
+      font-weight: 600;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr 312px;
+      gap: 18px;
+      padding: 20px;
+    }
+
+    .route-card {
+      background: linear-gradient(180deg, #fffdfa, #fdf8f3);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--card-shadow);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .route-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 230px;
+      height: 110px;
+      background: radial-gradient(circle at center, rgba(201,151,92,0.18), rgba(201,151,92,0) 68%);
+      pointer-events: none;
+    }
+
+    .route-name {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .time-strip {
+      display: grid;
+      grid-template-columns: 150px 1fr 150px;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .time-card {
+      background: #fff9f2;
+      border: 1px solid #eddccc;
+      border-radius: 18px;
+      padding: 16px;
+      min-height: 94px;
+    }
+
+    .time-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .time-card strong {
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .timeline {
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #d9c3af 0%, #b58d68 50%, #d9c3af 100%);
+      position: relative;
+    }
+
+    .timeline::before,
+    .timeline::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #c4934d;
+      box-shadow: 0 0 0 5px rgba(196,147,77,0.15);
+      transform: translateY(-50%);
+    }
+
+    .timeline::before { left: 0; }
+    .timeline::after { right: 0; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat {
+      background: #fff;
+      border: 1px solid #efe1d5;
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 82px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .stat strong {
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .info-bar {
+      margin-top: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
+      gap: 12px;
+      background: #fff9f2;
+      border: 1px solid #eddccc;
+      border-radius: 16px;
+      padding: 12px 14px;
+      color: #705645;
+      font-size: 14px;
     }
 
-    .tabs {
+    .mini-feed {
+      margin-top: 16px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--soft-shadow);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .profile-side {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #dfbb82, #b98643);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+    }
+
+    .profile-text strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .profile-text small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .lang-buttons {
       display: flex;
       gap: 10px;
     }
 
-    .tab {
-      padding: 12px 18px;
-      border-radius: 14px;
-      background: #f1e7dd;
-      color: #6d4d3d;
-      font-weight: 700;
-    }
-
-    .tab.active {
-      background: #fff;
-      box-shadow: 0 8px 20px rgba(90, 50, 30, 0.06);
-    }
-
-    .title {
-      font-size: 38px;
-      margin: 0;
-      font-weight: 700;
-    }
-
-    .route-card,
-    .feed-card,
-    .summary-card,
-    .footer-card {
-      background: var(--card);
+    .lang-btn {
+      padding: 10px 14px;
+      border-radius: 12px;
       border: 1px solid var(--line);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .route-card {
-      padding: 20px;
-      margin-bottom: 18px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,253,250,0.96)),
-        radial-gradient(circle at 85% 25%, rgba(210,170,111,0.18), transparent 24%);
-    }
-
-    .route-name {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 18px;
-    }
-
-    .route-grid {
-      display: grid;
-      grid-template-columns: 170px 1fr 170px;
-      gap: 18px;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .stat-box {
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: #fff8f1;
-      border: 1px solid #eddccc;
-    }
-
-    .stat-label {
+      background: #fff;
+      color: #6a5041;
       font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 6px;
+      font-weight: 600;
     }
 
-    .stat-value {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--text);
-    }
-
-    .line-strip {
-      height: 12px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #d9c1ab, #b79270, #d9c1ab);
-      position: relative;
-    }
-
-    .line-strip::before,
-    .line-strip::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 16px;
-      height: 16px;
-      border-radius: 999px;
-      background: var(--gold);
-      transform: translateY(-50%);
-    }
-
-    .line-strip::before { right: 0; }
-    .line-strip::after { left: 0; }
-
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .meta-item {
-      background: #fff;
-      border: 1px solid #efe1d4;
-      border-radius: 18px;
-      padding: 14px;
-    }
-
-    .meta-item small {
-      display: block;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .meta-item strong {
-      font-size: 18px;
-    }
-
-    .feed-card {
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .avatar-lg {
-      width: 48px;
-      height: 48px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, #d8b27a, #b98541);
-    }
-
-    .feed-text {
-      flex: 1;
-    }
-
-    .feed-text strong {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .feed-text span {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .summary {
-      padding: 22px;
-      background: linear-gradient(180deg, #fffdfa, #faf4ed);
-    }
-
-    .search-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-      gap: 12px;
-    }
-
-    .search-box {
-      height: 46px;
-      flex: 1;
-      border-radius: 14px;
+    .summary-card {
+      background: linear-gradient(180deg, #fffdfa, #fbf5ef);
       border: 1px solid var(--line);
-      background: #fff;
-      padding: 0 14px;
+      border-radius: 22px;
+      box-shadow: var(--card-shadow);
+      padding: 20px;
+      min-height: 470px;
+    }
+
+    .summary-kicker {
+      font-size: 12px;
+      color: #b49b8a;
+      margin-bottom: 8px;
     }
 
     .summary-title {
-      font-size: 26px;
-      margin: 0 0 18px;
+      font-size: 25px;
       font-weight: 800;
+      margin-bottom: 8px;
     }
 
-    .carrier {
-      color: var(--muted);
+    .summary-sub {
+      color: #8d7364;
       font-size: 14px;
       margin-bottom: 18px;
     }
 
-    .divider {
+    .summary-divider {
       height: 1px;
-      background: #ebddd0;
-      margin: 16px 0;
+      background: #ebddd1;
+      margin: 14px 0;
     }
 
-    .row {
+    .summary-row {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      gap: 10px;
       margin: 12px 0;
       font-size: 17px;
     }
 
-    .price {
+    .summary-value {
       font-weight: 800;
+    }
+
+    .summary-total {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+
+    .summary-total strong {
       font-size: 18px;
     }
 
-    .total {
-      font-size: 36px;
+    .summary-total span {
+      font-size: 44px;
+      line-height: 1;
       font-weight: 900;
+      letter-spacing: -1px;
       color: var(--text);
     }
 
-    .primary-btn {
+    .book-btn {
       width: 100%;
-      height: 56px;
+      height: 58px;
       border: 0;
       border-radius: 16px;
-      background: linear-gradient(180deg, #d4ae70, #be8c48);
+      background: linear-gradient(180deg, #d3ab71, #bc8846);
       color: #fff;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 800;
       cursor: pointer;
-      margin-top: 18px;
+      box-shadow: 0 12px 24px rgba(190,140,72,0.22);
     }
 
-    .trust {
+    .trusted {
       margin-top: 18px;
-      padding: 16px;
-      border-radius: 18px;
       background: #fff;
-      border: 1px solid #efe2d5;
+      border: 1px solid #efe2d6;
+      border-radius: 16px;
+      padding: 16px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      color: #6f5242;
+      justify-content: space-between;
+      color: #6d5242;
       font-weight: 700;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1240px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
       .layout {
         grid-template-columns: 1fr;
       }
 
-      .main {
-        border-inline: 0;
+      .header {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .header-tab,
+      .header-title,
+      .header-tools {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        min-height: 66px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="shell">
-      <header class="topbar">
-        <div class="top-actions">
-          <div class="avatar">👤</div>
-          <div class="icon-btn">🔔</div>
-          <div class="icon-btn">📅</div>
-          <div class="icon-btn">⌕</div>
-        </div>
-
+  <div class="app">
+    <div class="layout">
+      <aside class="sidebar">
         <div class="brand">
+          <span class="logo-mark"></span>
           <span>SAFARYAT</span>
-          <span class="logo"></span>
         </div>
-      </header>
 
-      <div class="layout">
-        <aside class="summary">
-          <div class="search-top">
-            <button class="icon-btn" style="background:#fff;color:#6f4f3f;border-color:#eadfd4;">🔎</button>
-            <input class="search-box" placeholder="Search" />
+        <section class="search-panel">
+          <h2 class="panel-title">
+            <span>Search Filter</span>
+            <span class="magnifier">⌕</span>
+          </h2>
+
+          <label class="label">Origin:</label>
+          <div class="control"><small>Abtcie</small><span>⌄</span></div>
+
+          <label class="label">Departure Date</label>
+          <div class="control"><small>Ope'tead</small><span>⌄</span></div>
+
+          <label class="label">Vehicle Type</label>
+          <div class="vehicle-types">
+            <div class="vehicle-pill active">Car</div>
+            <div class="vehicle-pill">Van</div>
+            <div class="vehicle-pill">Bus</div>
           </div>
 
-          <div class="summary-card" style="padding:24px;">
-            <h2 class="summary-title">Amman — Baghdad</h2>
-            <div class="carrier">illos • Trusted carrier</div>
-            <div class="divider"></div>
-            <div class="row"><span>Price</span><span class="price">100 د.أ</span></div>
-            <div class="row"><span>Deposit</span><span class="price">10%</span></div>
-            <div class="divider"></div>
-            <div class="row"><span>Total</span><span class="total">100</span></div>
-            <button class="primary-btn">Book Seat</button>
+          <div class="side-link">
+            <span>Filters</span>
+            <span>⌄</span>
           </div>
 
-          <div class="trust">
-            <span>Trusted carrier</span>
-            <span>›</span>
-          </div>
-        </aside>
+          <button class="search-btn">⌕ Search</button>
+        </section>
+      </aside>
 
-        <main class="main">
-          <div class="main-head">
-            <h1 class="title">Dashboard</h1>
-            <div class="tabs">
-              <div class="tab active">Chats</div>
-              <div class="tab">Trips</div>
+      <section class="content">
+        <header class="header">
+          <div class="header-tab">Chats ›</div>
+          <div class="header-title">Dashboard</div>
+          <div class="header-tools">
+            <div class="tool-icon">🔔</div>
+            <div class="tool-icon">🧾</div>
+            <div class="header-search">⌕ Search</div>
+          </div>
+        </header>
+
+        <div class="workspace">
+          <div>
+            <article class="route-card">
+              <div class="route-name">Amman — Baghdad</div>
+
+              <div class="time-strip">
+                <div class="time-card">
+                  <span>Departure</span>
+                  <strong>08:01</strong>
+                </div>
+                <div class="timeline"></div>
+                <div class="time-card">
+                  <span>Arrival</span>
+                  <strong>12:06</strong>
+                </div>
+              </div>
+
+              <div class="stats-grid">
+                <div class="stat">
+                  <span>Vehicle</span>
+                  <strong>Car</strong>
+                </div>
+                <div class="stat">
+                  <span>Traveller</span>
+                  <strong>16:3 h</strong>
+                </div>
+                <div class="stat">
+                  <span>Seats</span>
+                  <strong>4+</strong>
+                </div>
+                <div class="stat">
+                  <span>Social</span>
+                  <strong>open you</strong>
+                </div>
+                <div class="stat">
+                  <span>Carrier</span>
+                  <strong>Logan</strong>
+                </div>
+                <div class="stat">
+                  <span>Price</span>
+                  <strong>100 د.أ</strong>
+                </div>
+                <div class="stat">
+                  <span>Payment</span>
+                  <strong>10%</strong>
+                </div>
+                <div class="stat">
+                  <span>Status</span>
+                  <strong>Ready</strong>
+                </div>
+              </div>
+
+              <div class="info-bar">
+                <span>سجلات اتصال الحجز المقبولة</span>
+                <span>تم إرسال بريد إليك</span>
+              </div>
+            </article>
+
+            <div class="mini-feed">
+              <div class="profile-side">
+                <div class="avatar"></div>
+                <div class="profile-text">
+                  <strong>People Profile destinations</strong>
+                  <small>Sand Filter — Cook Medled</small>
+                </div>
+              </div>
+
+              <div class="lang-buttons">
+                <div class="lang-btn">العربية</div>
+                <div class="lang-btn">English</div>
+              </div>
             </div>
           </div>
 
-          <section class="route-card">
-            <div class="route-name">Amman — Baghdad</div>
-            <div class="route-grid">
-              <div class="stat-box">
-                <div class="stat-label">Departure</div>
-                <div class="stat-value">08:01</div>
+          <aside>
+            <div class="summary-card">
+              <div class="summary-kicker">Trip round mileage</div>
+              <div class="summary-title">Amman — Baghdad</div>
+              <div class="summary-sub">illos</div>
+
+              <div class="summary-divider"></div>
+
+              <div class="summary-row">
+                <span>Price</span>
+                <span class="summary-value">100 د.أ</span>
               </div>
-              <div class="line-strip"></div>
-              <div class="stat-box">
-                <div class="stat-label">Arrival</div>
-                <div class="stat-value">12:06</div>
+              <div class="summary-row">
+                <span>Deposit</span>
+                <span class="summary-value">10%</span>
+              </div>
+
+              <div class="summary-divider"></div>
+
+              <div class="summary-total">
+                <strong>Total</strong>
+                <span>100</span>
+              </div>
+
+              <button class="book-btn">Book Seat (مقعد)</button>
+
+              <div class="trusted">
+                <span>Trusted carrier</span>
+                <span>›</span>
               </div>
             </div>
-
-            <div class="meta-grid">
-              <div class="meta-item">
-                <small>Vehicle</small>
-                <strong>Car</strong>
-              </div>
-              <div class="meta-item">
-                <small>Duration</small>
-                <strong>16:3 h</strong>
-              </div>
-              <div class="meta-item">
-                <small>Seats</small>
-                <strong>4</strong>
-              </div>
-              <div class="meta-item">
-                <small>Social</small>
-                <strong>Open</strong>
-              </div>
-              <div class="meta-item">
-                <small>Carrier</small>
-                <strong>Logan</strong>
-              </div>
-              <div class="meta-item">
-                <small>Price</small>
-                <strong>100 د.أ</strong>
-              </div>
-              <div class="meta-item">
-                <small>Deposit</small>
-                <strong>10%</strong>
-              </div>
-              <div class="meta-item">
-                <small>Status</small>
-                <strong>Ready</strong>
-              </div>
-            </div>
-          </section>
-
-          <section class="feed-card">
-            <div class="avatar-lg"></div>
-            <div class="feed-text">
-              <strong>People profile destinations</strong>
-              <span>Sand Filter — Cook Medled</span>
-            </div>
-            <div class="tab">Arabic</div>
-            <div class="tab">English</div>
-          </section>
-        </main>
-
-        <aside class="sidebar">
-          <div class="side-card">
-            <h3 class="side-title">Search Filter</h3>
-            <label class="label">Origin</label>
-            <select class="select">
-              <option>Abtcie</option>
-            </select>
-
-            <label class="label">Departure Date</label>
-            <input class="input" value="Ope'tead" />
-
-            <label class="label">Vehicle Type</label>
-            <div class="chips">
-              <div class="chip active">Car</div>
-              <div class="chip">Van</div>
-              <div class="chip">Bus</div>
-            </div>
-
-            <button class="search-btn">Search</button>
-          </div>
-
-          <div class="side-card">
-            <h3 class="side-title">Filters</h3>
-            <label class="label">Flexible search</label>
-            <input class="input" placeholder="Same country" />
-            <label class="label">Seats</label>
-            <input class="input" placeholder="4 seats" />
-          </div>
-        </aside>
-      </div>
+          </aside>
+        </div>
+      </section>
     </div>
   </div>
 </body>
