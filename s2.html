@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Safaryat Desktop</title>
+  <style>
+    :root {
+      --bg: #f5f0ea;
+      --paper: #fbf7f2;
+      --card: #fffdfa;
+      --line: #eadfd4;
+      --text: #4f2d24;
+      --muted: #8d7364;
+      --gold: #c2914c;
+      --gold-dark: #ab7a39;
+      --brown-900: #4b1f18;
+      --brown-800: #5d261c;
+      --brown-700: #733222;
+      --brown-600: #8f4d30;
+      --shadow: 0 18px 40px rgba(71, 30, 20, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #f8f4ef 0%, #efe6df 100%);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .shell {
+      overflow: hidden;
+      border: 4px solid var(--brown-900);
+      border-radius: 28px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .topbar {
+      height: 88px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, var(--brown-900), var(--brown-700) 55%, #8c4c30 100%);
+      color: #fff;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      direction: ltr;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .logo {
+      width: 34px;
+      height: 34px;
+      position: relative;
+    }
+
+    .logo::before,
+    .logo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 55% 45% 50% 50% / 25% 75% 25% 75%;
+      transform: rotate(24deg);
+    }
+
+    .logo::before {
+      background: #5ea2bc;
+      clip-path: path("M 6 3 C 24 6, 28 14, 17 20 C 11 24, 10 32, 22 39 C 29 43, 28 48, 20 51 C 11 54, 6 49, 8 42 C 11 31, 0 24, 4 13 C 6 8, 10 4, 6 3 Z");
+    }
+
+    .logo::after {
+      background: linear-gradient(180deg, #da8d45, #b44f2f);
+      clip-path: polygon(10% 10%, 44% 17%, 36% 27%, 51% 45%, 40% 69%, 61% 89%, 39% 91%, 19% 71%, 27% 47%, 16% 24%);
+      opacity: 0.92;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .icon-btn,
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 290px 1fr 320px;
+      min-height: 820px;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, var(--brown-900), var(--brown-700) 60%, #6c2e21 100%);
+      color: #fff;
+      padding: 26px 18px;
+    }
+
+    .side-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 22px;
+      padding: 18px;
+      margin-bottom: 18px;
+      backdrop-filter: blur(6px);
+    }
+
+    .side-title {
+      font-size: 21px;
+      margin: 0 0 16px;
+      font-weight: 700;
+    }
+
+    .label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #f5dfca;
+    }
+
+    .field,
+    .select,
+    .input {
+      width: 100%;
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.95);
+      color: #664638;
+      padding: 0 14px;
+      outline: none;
+      margin-bottom: 14px;
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      margin: 6px 0 18px;
+    }
+
+    .chip {
+      flex: 1;
+      text-align: center;
+      padding: 11px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: #f7e8d7;
+      font-size: 14px;
+    }
+
+    .chip.active {
+      background: linear-gradient(180deg, #d2aa6f, #b98541);
+      border-color: transparent;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .search-btn {
+      width: 100%;
+      height: 52px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #d4ae70, #bb8945);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(191,141,71,0.18);
+    }
+
+    .main {
+      background: #fcf8f4;
+      padding: 22px;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+    }
+
+    .main-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+    }
+
+    .tab {
+      padding: 12px 18px;
+      border-radius: 14px;
+      background: #f1e7dd;
+      color: #6d4d3d;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(90, 50, 30, 0.06);
+    }
+
+    .title {
+      font-size: 38px;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .route-card,
+    .feed-card,
+    .summary-card,
+    .footer-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .route-card {
+      padding: 20px;
+      margin-bottom: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,253,250,0.96)),
+        radial-gradient(circle at 85% 25%, rgba(210,170,111,0.18), transparent 24%);
+    }
+
+    .route-name {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .route-grid {
+      display: grid;
+      grid-template-columns: 170px 1fr 170px;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .stat-box {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: #fff8f1;
+      border: 1px solid #eddccc;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .line-strip {
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #d9c1ab, #b79270, #d9c1ab);
+      position: relative;
+    }
+
+    .line-strip::before,
+    .line-strip::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: var(--gold);
+      transform: translateY(-50%);
+    }
+
+    .line-strip::before { right: 0; }
+    .line-strip::after { left: 0; }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .meta-item {
+      background: #fff;
+      border: 1px solid #efe1d4;
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .meta-item small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .meta-item strong {
+      font-size: 18px;
+    }
+
+    .feed-card {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar-lg {
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #d8b27a, #b98541);
+    }
+
+    .feed-text {
+      flex: 1;
+    }
+
+    .feed-text strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .feed-text span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .summary {
+      padding: 22px;
+      background: linear-gradient(180deg, #fffdfa, #faf4ed);
+    }
+
+    .search-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 12px;
+    }
+
+    .search-box {
+      height: 46px;
+      flex: 1;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 0 14px;
+    }
+
+    .summary-title {
+      font-size: 26px;
+      margin: 0 0 18px;
+      font-weight: 800;
+    }
+
+    .carrier {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .divider {
+      height: 1px;
+      background: #ebddd0;
+      margin: 16px 0;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 12px 0;
+      font-size: 17px;
+    }
+
+    .price {
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .total {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .primary-btn {
+      width: 100%;
+      height: 56px;
+      border: 0;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #d4ae70, #be8c48);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 18px;
+    }
+
+    .trust {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid #efe2d5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #6f5242;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1200px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        border-inline: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="shell">
+      <header class="topbar">
+        <div class="top-actions">
+          <div class="avatar">👤</div>
+          <div class="icon-btn">🔔</div>
+          <div class="icon-btn">📅</div>
+          <div class="icon-btn">⌕</div>
+        </div>
+
+        <div class="brand">
+          <span>SAFARYAT</span>
+          <span class="logo"></span>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="summary">
+          <div class="search-top">
+            <button class="icon-btn" style="background:#fff;color:#6f4f3f;border-color:#eadfd4;">🔎</button>
+            <input class="search-box" placeholder="Search" />
+          </div>
+
+          <div class="summary-card" style="padding:24px;">
+            <h2 class="summary-title">Amman — Baghdad</h2>
+            <div class="carrier">illos • Trusted carrier</div>
+            <div class="divider"></div>
+            <div class="row"><span>Price</span><span class="price">100 د.أ</span></div>
+            <div class="row"><span>Deposit</span><span class="price">10%</span></div>
+            <div class="divider"></div>
+            <div class="row"><span>Total</span><span class="total">100</span></div>
+            <button class="primary-btn">Book Seat</button>
+          </div>
+
+          <div class="trust">
+            <span>Trusted carrier</span>
+            <span>›</span>
+          </div>
+        </aside>
+
+        <main class="main">
+          <div class="main-head">
+            <h1 class="title">Dashboard</h1>
+            <div class="tabs">
+              <div class="tab active">Chats</div>
+              <div class="tab">Trips</div>
+            </div>
+          </div>
+
+          <section class="route-card">
+            <div class="route-name">Amman — Baghdad</div>
+            <div class="route-grid">
+              <div class="stat-box">
+                <div class="stat-label">Departure</div>
+                <div class="stat-value">08:01</div>
+              </div>
+              <div class="line-strip"></div>
+              <div class="stat-box">
+                <div class="stat-label">Arrival</div>
+                <div class="stat-value">12:06</div>
+              </div>
+            </div>
+
+            <div class="meta-grid">
+              <div class="meta-item">
+                <small>Vehicle</small>
+                <strong>Car</strong>
+              </div>
+              <div class="meta-item">
+                <small>Duration</small>
+                <strong>16:3 h</strong>
+              </div>
+              <div class="meta-item">
+                <small>Seats</small>
+                <strong>4</strong>
+              </div>
+              <div class="meta-item">
+                <small>Social</small>
+                <strong>Open</strong>
+              </div>
+              <div class="meta-item">
+                <small>Carrier</small>
+                <strong>Logan</strong>
+              </div>
+              <div class="meta-item">
+                <small>Price</small>
+                <strong>100 د.أ</strong>
+              </div>
+              <div class="meta-item">
+                <small>Deposit</small>
+                <strong>10%</strong>
+              </div>
+              <div class="meta-item">
+                <small>Status</small>
+                <strong>Ready</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="feed-card">
+            <div class="avatar-lg"></div>
+            <div class="feed-text">
+              <strong>People profile destinations</strong>
+              <span>Sand Filter — Cook Medled</span>
+            </div>
+            <div class="tab">Arabic</div>
+            <div class="tab">English</div>
+          </section>
+        </main>
+
+        <aside class="sidebar">
+          <div class="side-card">
+            <h3 class="side-title">Search Filter</h3>
+            <label class="label">Origin</label>
+            <select class="select">
+              <option>Abtcie</option>
+            </select>
+
+            <label class="label">Departure Date</label>
+            <input class="input" value="Ope'tead" />
+
+            <label class="label">Vehicle Type</label>
+            <div class="chips">
+              <div class="chip active">Car</div>
+              <div class="chip">Van</div>
+              <div class="chip">Bus</div>
+            </div>
+
+            <button class="search-btn">Search</button>
+          </div>
+
+          <div class="side-card">
+            <h3 class="side-title">Filters</h3>
+            <label class="label">Flexible search</label>
+            <input class="input" placeholder="Same country" />
+            <label class="label">Seats</label>
+            <input class="input" placeholder="4 seats" />
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
